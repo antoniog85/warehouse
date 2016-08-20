@@ -1,14 +1,33 @@
 # Warehouse microservice
 
-This microservice provides all the basic functionality for a warehouse
+This microservice provides all the basic functionality to manage a warehouse.
+
+The domain logic is located in the /src folder, whereas the framework specific functionality it's in the /app folder.
 
 ## Endpoints
 
-<table>
-<tr><th>Verb</th><th>Endpoint</th><th>Parameters</th></tr>
-<tr><td>GET</td><td>/warehouses</td><td></td></tr>
-</table>
+Verb | Endpoint                | Parameters                      |
+---- | ----------------------- | ------------------------------- |
+GET  | /warehouses             |                                 |
+
+## Development
+
+To execute run the docker image please run `docker-compose up` from the root of the project.
+
+To shut it down: `docker-compose down`
+
+### Run composer
+
+Reference: https://hub.docker.com/r/composer/composer/
+
+From the root of the project, please run `docker run --rm -v $(pwd):/app composer/composer install`
 
 ## Migration and seeding
 
-php artisan migrate:refresh --seed
+From the root of the project, please run `php artisan migrate:refresh --seed`
+
+## Testing
+
+Reference: https://hub.docker.com/r/phpunit/phpunit/
+
+From the root of the project, please run `docker run -v $(pwd):/app phpunit/phpunit ./tests`

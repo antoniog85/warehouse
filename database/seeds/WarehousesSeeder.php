@@ -7,6 +7,6 @@ class WarehousesSeeder extends Seeder
     /** @return void */
     public function run()
     {
-        factory(App\Warehouse::class, 50)->create();
+        factory(App\Models\Warehouse::class, 50)->create();
     }
 }

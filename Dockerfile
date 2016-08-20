@@ -1,5 +1,5 @@
 FROM debian:jessie
 
-MAINTAINER Antonio Giuliana <antonio@agappsolutions.co.uk>
+MAINTAINER Antonio Giuliana <job@antoniogiuliana.co.uk>
 
 WORKDIR /var/www

@@ -11,7 +11,7 @@
 |
 */
 
-$factory->define(App\Warehouse::class, function (Faker\Generator $faker) {
+$factory->define(App\Models\Warehouse::class, function (Faker\Generator $faker) {
     return [
         'name' => $faker->company,
         'note' => $faker->paragraph,

@@ -1,27 +1,27 @@
 {
-    "name": "agappsolutions/warehouse",
-    "description": "Warehouse microservice",
+    "name": "antoniog85/warehouse",
+    "description": "Warehouse microservice based on Lumen",
     "keywords": [
         "warehouse", "microservice", "rest", "api"
     ],
     "authors": [{
         "name": "Antonio Giuliana",
-        "email": "antonio@agappsolutions.co.uk"
+        "email": "job@antoniogiuliana.co.uk"
     }],
     "require": {
         "php": ">=7.0",
         "laravel/lumen-framework": "5.2.*",
         "vlucas/phpdotenv": "~2.2",
-        "codeception/codeception": "*"
+        "antoniog85/mediatype": "*@dev"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
-        "phpunit/phpunit": "5.0.*",
-        "mockery/mockery": "~0.9.1"
+        "phpunit/phpunit": "5.5.*"
     },
     "autoload": {
         "psr-4": {
-            "App\\": "app"
+            "App\\": "app",
+            "Warehouse\\": "src"
         }
     },
     "autoload-dev": {

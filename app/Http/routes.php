@@ -11,4 +11,4 @@
 |
 */
 
-$app->get('warehouses', 'WarehouseController@list');
+$app->get('warehouses', 'WarehouseController@getList');
