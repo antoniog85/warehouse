@@ -12,7 +12,7 @@ class Warehouse implements EntityInterface
     const URL_PATH = 'warehouses';
     
     /**
-     * @var int
+     * @var mixed
      */
     private $id;
     
@@ -42,19 +42,19 @@ class Warehouse implements EntityInterface
     private $deletedAt;
 
     /**
-     * @return int
+     * @return mixed
      */
-    public function getId(): int
+    public function getId()
     {
         return $this->id;
     }
 
     /**
-     * @param int $id
+     * @param mixed $id
      * 
      * @return $this
      */
-    public function setId(int $id)
+    public function setId($id)
     {
         $this->id = $id;
         
@@ -119,11 +119,6 @@ class Warehouse implements EntityInterface
         $this->deletedAt = $deletedAt;
 
         return $this;
-    }
-
-    public function getLinks(): array
-    {
-        return [];
     }
 
     /**

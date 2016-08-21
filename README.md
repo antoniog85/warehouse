@@ -30,4 +30,4 @@ From the root of the project, please run `php artisan migrate:refresh --seed`
 
 Reference: https://hub.docker.com/r/phpunit/phpunit/
 
-From the root of the project, please run `docker run -v $(pwd):/app phpunit/phpunit ./tests`
+From the root of the project, please run `./phpunit.sh` or `docker run -v $(pwd):/app phpunit/phpunit ./tests`

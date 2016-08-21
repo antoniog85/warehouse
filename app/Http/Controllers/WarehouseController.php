@@ -43,9 +43,11 @@ class WarehouseController extends Controller
 //        if ($this->cache->exists($cacheKey)) {
 //            return json_decode($this->cache->get($cacheKey), true);
 //        }
+
         $collectionEntities = $this->repository->get($perPage, $page);
         $data = $collectionEntities->toJson();
 //        $this->cache->set($cacheKey, $data);
+
         return new Response($data);
     }
 }

@@ -4,9 +4,7 @@ namespace Warehouse\Entity;
 
 interface EntityInterface
 {
-    public function getId(): int;
+    public function getId();
 
     public function toArray(): array;
-
-    public function getLinks(): array;
 }

@@ -4,7 +4,7 @@ use PHPUnit_Framework_TestCase as TestCase;
 use PHPUnit_Framework_MockObject_MockObject as MockObject;
 use Illuminate\Database\Eloquent\Model;
 use Warehouse\Entity\EntityInterface;
-use Warehouse\Transformer\Warehouse\WarehouseEloquentTransformer;
+use Warehouse\Transformer\Warehouse\WarehouseFromEloquentToEntityTransformer;
 
 class WarehouseEloquentTransformerTest extends TestCase
 {
@@ -20,7 +20,7 @@ class WarehouseEloquentTransformerTest extends TestCase
 
     public function testTransformerReturnEntity()
     {
-        $transformer = new WarehouseEloquentTransformer();
+        $transformer = new WarehouseFromEloquentToEntityTransformer();
         $this->assertTrue($transformer->transform($this->model) instanceof EntityInterface);
     }
 }

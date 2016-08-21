@@ -7,7 +7,7 @@ use Warehouse\Entity\EntityInterface;
 use Warehouse\Entity\Warehouse\Warehouse;
 use Warehouse\Transformer\EloquentTransformer;
 
-class WarehouseEloquentTransformer implements EloquentTransformer
+class WarehouseFromEloquentToEntityTransformer implements EloquentTransformer
 {
     /**
      * @param Model $model

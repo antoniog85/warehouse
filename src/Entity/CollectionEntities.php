@@ -2,38 +2,32 @@
 
 namespace Warehouse\Entity;
 
-use Warehouse\Entity\Warehouse\Warehouse;
-
 /**
- * Class responsible for transforming a acollection of entities into a suitable format for the collectionJson mediatype
+ * Representation of the ORM query result
  */
 class CollectionEntities
 {
     /**
-     * @var array array of items retrieved
+     * @var EntityInterface[] array of items retrieved
      */
-    private $items = [];
+    protected $items = [];
 
     /**
      * @var int total items stored in the database, and not necessarily retrieved in this collection
      */
-    private $totalItems = 0;
+    protected $totalItems = 0;
 
     /**
-     * @var array
+     * @var array links related to this collection of entities
      */
-    private $links = [];
+    protected $links = [];
 
     /**
      * @param EntityInterface $entity
      */
     public function addItem(EntityInterface $entity)
     {
-        $this->items[] = [
-            'href' => $this->buildEntityUrl($entity->getId()),
-            'data' => $entity->toArray(),
-            'links' => $entity->getLinks(),
-        ];
+        $this->items[] = $entity;
     }
 
     /**
@@ -42,6 +36,14 @@ class CollectionEntities
     public function getItems(): array
     {
         return $this->items;
+    }
+
+    /**
+     * @param array $items
+     */
+    public function setItems(array $items)
+    {
+        $this->items = $items;
     }
 
     /**
@@ -71,22 +73,16 @@ class CollectionEntities
     /**
      * @return array
      */
-    private function toArray(): array
+    public function toArray(): array
     {
-        return [
-            'items' => $this->items,
-            'total_items' => $this->totalItems,
+        $data = [
             'links' => $this->links,
+            'total_items' => $this->totalItems,
         ];
-    }
+        foreach ($this->items as $item) {
+            $data['items'][] = $item->toArray();
+        }
 
-    /**
-     * @param int $id
-     *
-     * @return string
-     */
-    private function buildEntityUrl(int $id): string
-    {
-        return getenv('REQUEST_SCHEME').'://'.getenv('SERVER_NAME').'/'.Warehouse::URL_PATH.'/'.$id;
+        return $data;
     }
 }

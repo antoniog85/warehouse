@@ -1,6 +1,6 @@
 <?php
 
-namespace Warehouse\MediaType;
+namespace Warehouse\MediaType\CollectionJson;
 
 class CollectionJson
 {
@@ -20,7 +20,7 @@ class CollectionJson
     protected $error = [];
 
     /**
-     * @var array
+     * @var CollectionJsonItem[]
      */
     protected $items = [];
 
@@ -54,11 +54,11 @@ class CollectionJson
     }
 
     /**
-     * @param string $error
+     * @param $error
      *
      * @return $this
      */
-    public function setError(string $error)
+    public function setError($error)
     {
         $this->error = $error;
 
@@ -66,15 +66,13 @@ class CollectionJson
     }
 
     /**
-     * @param $items
+     * @param CollectionJsonItem $item
      *
      * @return $this
      */
-    public function setItems($items)
+    public function addItem(CollectionJsonItem $item)
     {
-        if (!empty($items)) {
-            $this->items = $items;
-        }
+        $this->items[] = $item;
 
         return $this;
     }
@@ -93,7 +91,7 @@ class CollectionJson
      * 
      * @return $this
      */
-    public function setLinks(array $links)
+    public function setLinks($links)
     {
         $this->links = $links;
 
@@ -105,12 +103,18 @@ class CollectionJson
      */
     public function render(): array
     {
-        return ['collection' => [
-            'version' => $this->version,
-            'href' => $this->href,
-            'items' => $this->items,
-            'links' => $this->links,
-            'error' => $this->error,
-        ]];
+        $data = [
+            'collection' => [
+                'version' => $this->version,
+                'href' => $this->href,
+                'links' => $this->links,
+                'error' => $this->error,
+                'items' => [],
+            ]
+        ];
+        foreach ($this->items as $item) {
+            $data['collection']['items'][] = $item->toArray();
+        }
+        return $data;
     }
 }
