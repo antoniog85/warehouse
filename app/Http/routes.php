@@ -11,4 +11,6 @@
 |
 */
 
-$app->get('warehouses', 'WarehouseController@getList');
+use Warehouse\Entity\Warehouse\Warehouse;
+
+$app->get(Warehouse::URL_PATH, 'WarehouseController@getList');

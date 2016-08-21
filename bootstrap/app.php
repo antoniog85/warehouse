@@ -74,6 +74,7 @@ $app->middleware([
 */
 
  $app->register(App\Providers\RepositoryServiceProvider::class);
+ $app->register(Illuminate\Redis\RedisServiceProvider::class);
 
 /*
 |--------------------------------------------------------------------------

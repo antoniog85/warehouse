@@ -12,7 +12,9 @@
         "php": ">=7.0",
         "laravel/lumen-framework": "5.2.*",
         "vlucas/phpdotenv": "~2.2",
-        "antoniog85/mediatype": "*@dev"
+//        "antoniog85/mediatype": "*@dev",
+        "predis/predis": "^1.1",
+        "illuminate/redis": "^5.2"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

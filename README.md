@@ -14,7 +14,7 @@ GET  | /warehouses             |                                 |
 
 To execute run the docker image please run `docker-compose up` from the root of the project.
 
-To shut it down: `docker-compose down`
+To shut it down: `docker-compose stop`
 
 ### Run composer
 
