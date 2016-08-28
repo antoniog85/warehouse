@@ -2,36 +2,27 @@
 
 namespace Warehouse\Repository\Eloquent;
 
-use App\Models\Warehouse as WarehouseEloquentModel;
-use Warehouse\Entity\CollectionEntities;
-use Warehouse\Repository\RepositoryInterface;
-use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Warehouse\Entity\Warehouse\WarehouseEntity;
+use App\Models\Warehouse as WarehouseModel;
+use Warehouse\Repository\WarehouseRepositoryInterface;
 
-/**
- * Warehouse repository
- */
-class WarehouseEloquentRepository extends AbstractEloquentRepository implements RepositoryInterface
+class WarehouseEloquentRepository extends AbstractEloquentRepository implements WarehouseRepositoryInterface
 {
     /**
-     * Retrieve the list of warehouses
-     *
-     * @param int $perPage
-     * @param int $page
-     *
-     * @return CollectionEntities
+     * @param int $id
+     * @return WarehouseEntity
      */
-    public function get(int $perPage, int $page): CollectionEntities
+    public function getById(int $id): WarehouseEntity
     {
-        /** @var LengthAwarePaginator $result */
-        $result = WarehouseEloquentModel::paginate($perPage);
-        $this->collectionEntities->setTotalItems($result->total());
+        $model = WarehouseModel::find($id);
+        return $this->eloquentTransformer->transform($model);
+    }
 
-        /** @var WarehouseEloquentModel[] $warehouses */
-        $warehouses = $result->items();
-        foreach ($warehouses as $warehouse) {
-            $this->collectionEntities->addItem($this->transformer->transform($warehouse));
-        }
-
-        return $this->collectionEntities;
+    public function persist(WarehouseEntity $entity): WarehouseEntity
+    {
+        $model = WarehouseModel::firstOrCreate([
+            'name' => $entity->getName(),
+        ]);
+        return $this->eloquentTransformer->transform($model);
     }
 }

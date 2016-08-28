@@ -9,6 +9,7 @@ use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Laravel\Lumen\Exceptions\Handler as ExceptionHandler;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class Handler extends ExceptionHandler
 {
@@ -47,8 +48,15 @@ class Handler extends ExceptionHandler
     public function render($request, Exception $e)
     {
         $data = $e->getMessage();
-        $data .= getenv('APP_DEBUG') ? $e->getTraceAsString() : '';
 
-        return new Response($data, 500);
+        if ($e instanceof NotFoundHttpException) {
+            $data = "Invalid route";
+        }
+
+        $data .= getenv('APP_DEBUG') ? PHP_EOL . $e->getTraceAsString() : '';
+
+        $statusCode = method_exists($e, 'getStatusCode') ? $e->getStatusCode() : 500;
+
+        return new Response($data, $statusCode);
     }
 }

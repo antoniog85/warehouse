@@ -3,16 +3,17 @@
 namespace Warehouse\Entity\Warehouse;
 
 use Warehouse\Entity\EntityInterface;
+use Warehouse\Entity\Links;
 
 /**
  * Representation of the entity Warehouse
  */
-class Warehouse implements EntityInterface
+class WarehouseEntity implements EntityInterface
 {
     const URL_PATH = 'warehouses';
     
     /**
-     * @var mixed
+     * @var int
      */
     private $id;
     
@@ -42,7 +43,7 @@ class Warehouse implements EntityInterface
     private $deletedAt;
 
     /**
-     * @return mixed
+     * @return int
      */
     public function getId()
     {
@@ -50,7 +51,7 @@ class Warehouse implements EntityInterface
     }
 
     /**
-     * @param mixed $id
+     * @param int $id
      * 
      * @return $this
      */
@@ -71,6 +72,14 @@ class Warehouse implements EntityInterface
         $this->name = (string) $name;
 
         return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
     }
 
     /**
@@ -119,6 +128,15 @@ class Warehouse implements EntityInterface
         $this->deletedAt = $deletedAt;
 
         return $this;
+    }
+
+    /**
+     * @return Links
+     */
+    public function getLinks(): Links
+    {
+        $links = new Links();
+        return $links->setSelf(self::URL_PATH . '/' . $this->id);
     }
 
     /**

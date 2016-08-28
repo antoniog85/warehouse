@@ -18,7 +18,7 @@ class WarehouseEloquentTransformerTest extends TestCase
         $this->model = $this->getMockForAbstractClass(Model::class);
     }
 
-    public function testTransformerReturnEntity()
+    public function test_it_should_return_an_entity()
     {
         $transformer = new WarehouseFromEloquentToEntityTransformer();
         $this->assertTrue($transformer->transform($this->model) instanceof EntityInterface);

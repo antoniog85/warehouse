@@ -1,21 +1,22 @@
 <?php
 
-namespace Warehouse\Entity;
+namespace Warehouse\MediaType;
 
 /**
- * Representation of the ORM query result
+ * Representation of the collection of entities that
+ * needs to be transformed into a media type result.
  */
 class CollectionEntities
 {
     /**
-     * @var EntityInterface[] array of items retrieved
+     * @var CollectionEntitiesItem[] array of items retrieved
      */
     protected $items = [];
 
     /**
      * @var int total items stored in the database, and not necessarily retrieved in this collection
      */
-    protected $totalItems = 0;
+    protected $totalItems = 1;
 
     /**
      * @var array links related to this collection of entities
@@ -23,27 +24,19 @@ class CollectionEntities
     protected $links = [];
 
     /**
-     * @param EntityInterface $entity
+     * @param CollectionEntitiesItem $item
      */
-    public function addItem(EntityInterface $entity)
+    public function addItem(CollectionEntitiesItem $item)
     {
-        $this->items[] = $entity;
+        $this->items[] = $item;
     }
 
     /**
-     * @return array
+     * @return CollectionEntitiesItem[]
      */
     public function getItems(): array
     {
         return $this->items;
-    }
-
-    /**
-     * @param array $items
-     */
-    public function setItems(array $items)
-    {
-        $this->items = $items;
     }
 
     /**

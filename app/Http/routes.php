@@ -11,6 +11,8 @@
 |
 */
 
-use Warehouse\Entity\Warehouse\Warehouse;
+use Warehouse\Entity\Warehouse\WarehouseEntity;
 
-$app->get(Warehouse::URL_PATH, 'WarehouseController@getList');
+$app->get(WarehouseEntity::URL_PATH, 'WarehouseController@get');
+$app->get(WarehouseEntity::URL_PATH . '/{id}', 'WarehouseController@getById');
+$app->post(WarehouseEntity::URL_PATH, 'WarehouseController@post');

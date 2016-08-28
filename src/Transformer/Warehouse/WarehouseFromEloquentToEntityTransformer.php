@@ -4,10 +4,13 @@ namespace Warehouse\Transformer\Warehouse;
 
 use Illuminate\Database\Eloquent\Model;
 use Warehouse\Entity\EntityInterface;
-use Warehouse\Entity\Warehouse\Warehouse;
-use Warehouse\Transformer\EloquentTransformer;
+use Warehouse\Entity\Warehouse\WarehouseEntity;
+use Warehouse\Transformer\EloquentTransformerInterface;
 
-class WarehouseFromEloquentToEntityTransformer implements EloquentTransformer
+/**
+ * Transform an eloquent model into a domain entity
+ */
+class WarehouseFromEloquentToEntityTransformer implements EloquentTransformerInterface
 {
     /**
      * @param Model $model
@@ -15,7 +18,7 @@ class WarehouseFromEloquentToEntityTransformer implements EloquentTransformer
      */
     public function transform(Model $model): EntityInterface
     {
-        $warehouse = new Warehouse();
+        $warehouse = new WarehouseEntity();
         $warehouse
             ->setId($model->id)
             ->setName($model->name)

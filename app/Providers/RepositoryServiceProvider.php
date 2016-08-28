@@ -3,12 +3,15 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use Warehouse\Entity\CollectionEntities;
+use Warehouse\Repository\Eloquent\WarehouseEloquentCollectionJsonRepository;
 use Warehouse\Repository\Eloquent\WarehouseEloquentRepository;
 use Warehouse\Transformer\Warehouse\WarehouseFromEloquentToEntityTransformer;
+use Warehouse\Transformer\Warehouse\WarehouseFromEntityToCollectionEntitiesTransformer;
 
 class RepositoryServiceProvider extends ServiceProvider
 {
+    protected $defer = false;
+
     /**
      * Register any application services.
      *
@@ -16,11 +19,26 @@ class RepositoryServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->singleton(WarehouseEloquentRepository::class, function ($app) {
+        $this->app->singleton(WarehouseEloquentRepository::class, function($app) {
             return new WarehouseEloquentRepository(
-                new CollectionEntities(),
-                new WarehouseFromEloquentToEntityTransformer()
+                $app->make(WarehouseFromEloquentToEntityTransformer::class)
             );
         });
+
+        $this->app->singleton(WarehouseEloquentCollectionJsonRepository::class, function ($app) {
+            return new WarehouseEloquentCollectionJsonRepository(
+                $app->make(WarehouseFromEloquentToEntityTransformer::class),
+                $app->make(WarehouseFromEntityToCollectionEntitiesTransformer::class),
+                $app->make(WarehouseEloquentRepository::class)
+            );
+        });
+    }
+
+    public function provides()
+    {
+        return [
+            WarehouseEloquentRepository::class,
+            WarehouseEloquentCollectionJsonRepository::class
+        ];
     }
 }

@@ -39,9 +39,9 @@ class LaravelResponseManipulator extends AbstractResponseManipulator
             foreach ($this->collectionEntities['items'] as $item) {
                 $collectionJsonItem = new CollectionJsonItem();
                 $collectionJsonItem
-                    ->setData($item)
+                    ->setData($item['data'])
                     ->setLinks([])
-                    ->setHref($this->request->getSchemeAndHttpHost() . $this->request->getPathInfo() . '/' . $item['id']);
+                    ->setHref($item['links']['self']);
                 $collectionJson->addItem($collectionJsonItem);
             }
 

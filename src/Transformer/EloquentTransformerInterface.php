@@ -5,7 +5,7 @@ namespace Warehouse\Transformer;
 use Illuminate\Database\Eloquent\Model;
 use Warehouse\Entity\EntityInterface;
 
-interface EloquentTransformer
+interface EloquentTransformerInterface
 {
     /**
      * Transform an Eloquent Model into a domain Entity

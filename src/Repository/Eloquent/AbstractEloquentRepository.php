@@ -2,28 +2,20 @@
 
 namespace Warehouse\Repository\Eloquent;
 
-use Warehouse\Entity\CollectionEntities;
-use Warehouse\Transformer\EloquentTransformer;
+use Warehouse\Transformer\EloquentTransformerInterface;
 
 abstract class AbstractEloquentRepository
 {
     /**
-     * @var CollectionEntities object where to store the items found plus additional information like pagination
+     * @var EloquentTransformerInterface transformer from eloquent into domain entity
      */
-    protected $collectionEntities;
+    protected $eloquentTransformer;
 
     /**
-     * @var EloquentTransformer transformer from eloquent into domain entity
+     * @param EloquentTransformerInterface $eloquentTransformer
      */
-    protected $transformer;
-
-    /**
-     * @param CollectionEntities $collectionEntities
-     * @param EloquentTransformer $transformer
-     */
-    public function __construct(CollectionEntities $collectionEntities, EloquentTransformer $transformer)
+    public function __construct(EloquentTransformerInterface $eloquentTransformer)
     {
-        $this->collectionEntities = $collectionEntities;
-        $this->transformer = $transformer;
+        $this->eloquentTransformer = $eloquentTransformer;
     }
 }

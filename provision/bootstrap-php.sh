@@ -2,7 +2,7 @@
 
 apt-get update
 apt-get install -y git wget unzip
-docker-php-ext-install mbstring pcntl pdo pdo_mysql ext-phpiredis
+docker-php-ext-install mbstring pcntl pdo pdo_mysql
 pecl install xdebug
 docker-php-ext-enable xdebug
 sed -i '1 a xdebug.remote_autostart=true' /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
