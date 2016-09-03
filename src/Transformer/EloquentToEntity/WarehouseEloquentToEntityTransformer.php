@@ -1,16 +1,16 @@
 <?php
 
-namespace Warehouse\Transformer\Warehouse;
+namespace Warehouse\Transformer\EloquentToEntity;
 
 use Illuminate\Database\Eloquent\Model;
 use Warehouse\Entity\EntityInterface;
 use Warehouse\Entity\Warehouse\WarehouseEntity;
-use Warehouse\Transformer\EloquentTransformerInterface;
+use Warehouse\Transformer\TransformableToEntity;
 
 /**
  * Transform an eloquent model into a domain entity
  */
-class WarehouseFromEloquentToEntityTransformer implements EloquentTransformerInterface
+class WarehouseEloquentToEntityTransformer implements TransformableToEntity
 {
     /**
      * @param Model $model

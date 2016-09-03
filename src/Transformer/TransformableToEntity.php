@@ -1,13 +1,13 @@
 <?php
 
-namespace Warehouse\Transformer\HttpRequestToEntity;
+namespace Warehouse\Transformer;
 
 use Warehouse\Entity\EntityInterface;
 
-interface HttpRequestTransformerInterface
+interface TransformableToEntity
 {
     /**
-     * Transform an http request into an entity
+     * Transform into an entity
      *
      * @return EntityInterface
      */

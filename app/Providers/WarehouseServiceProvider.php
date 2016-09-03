@@ -9,7 +9,7 @@ use Illuminate\Support\ServiceProvider;
 use Warehouse\Repository\Eloquent\EloquentRepository;
 use Warehouse\Repository\Eloquent\EloquentCollectionJsonRepository;
 use Warehouse\Transformer\HttpRequestToEntity\HttpRequestToEntity;
-use Warehouse\Transformer\Warehouse\WarehouseFromEloquentToEntityTransformer;
+use Warehouse\Transformer\EloquentToEntity\WarehouseEloquentToEntityTransformer;
 
 class WarehouseServiceProvider extends ServiceProvider
 {
@@ -26,7 +26,7 @@ class WarehouseServiceProvider extends ServiceProvider
             ->needs(EloquentCollectionJsonRepository::class)
             ->give(function ($app) {
                 return new EloquentCollectionJsonRepository(
-                    $app->make(WarehouseFromEloquentToEntityTransformer::class),
+                    $app->make(WarehouseEloquentToEntityTransformer::class),
                     $app->make(EloquentRepository::class),
                     $app->make(Warehouse::class)
                 );
@@ -36,7 +36,7 @@ class WarehouseServiceProvider extends ServiceProvider
             ->needs(EloquentRepository::class)
             ->give(function ($app) {
                 return new EloquentRepository(
-                    $app->make(WarehouseFromEloquentToEntityTransformer::class),
+                    $app->make(WarehouseEloquentToEntityTransformer::class),
                     $app->make(Warehouse::class)
                 );
             });

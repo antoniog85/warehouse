@@ -6,11 +6,12 @@ use App\Models\Warehouse;
 use Illuminate\Http\Request;
 use Warehouse\Entity\EntityInterface;
 use Warehouse\Transformer\Exception\TransformerNotFoundException;
+use Warehouse\Transformer\TransformableToEntity;
 
-class IlluminateRequestTransformer implements HttpRequestTransformerInterface
+class IlluminateRequestTransformer implements TransformableToEntity
 {
     /**
-     * @var HttpRequestTransformerInterface
+     * @var TransformableToEntity
      */
     private $strategy;
 
