@@ -3,10 +3,12 @@
 namespace Warehouse\Repository\Eloquent;
 
 use App\Models\Warehouse as WarehouseEloquentModel;
-use Warehouse\MediaType\CollectionEntities;
 use Warehouse\Entity\Warehouse\WarehouseEntity;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
-use Warehouse\Transformer\CollectionEntitiesTransformerInterface;
+use Warehouse\MediaType\CollectionJson\CollectionJson;
+use Warehouse\MediaType\CollectionJson\CollectionJsonItem;
+use Warehouse\MediaType\CollectionJson\CollectionJsonLink;
+use Warehouse\MediaType\CollectionJson\Transformer\CollectionJsonTransformer;
 use Warehouse\Transformer\EloquentTransformerInterface;
 
 class WarehouseEloquentCollectionJsonRepository
@@ -17,23 +19,16 @@ class WarehouseEloquentCollectionJsonRepository
     private $eloquentTransformer;
 
     /**
-     * @var CollectionEntitiesTransformerInterface
-     */
-    private $collectionEntitiesTransformer;
-
-    /**
      * @var WarehouseEloquentRepository
      */
     private $eloquentRepository;
 
     public function __construct(
         EloquentTransformerInterface $eloquentTransformer,
-        CollectionEntitiesTransformerInterface $collectionEntitiesTransformer,
         WarehouseEloquentRepository $eloquentRepository
     )
     {
         $this->eloquentTransformer = $eloquentTransformer;
-        $this->collectionEntitiesTransformer = $collectionEntitiesTransformer;
         $this->eloquentRepository = $eloquentRepository;
     }
 
@@ -43,44 +38,64 @@ class WarehouseEloquentCollectionJsonRepository
      * @param int $perPage
      * @param int $page
      *
-     * @return CollectionEntities
+     * @return CollectionJson
      */
-    public function get(int $perPage, int $page): CollectionEntities
+    public function findAll(int $perPage, int $page): CollectionJson
     {
         /** @var LengthAwarePaginator $result */
         $result = WarehouseEloquentModel::paginate($perPage);
+        $result->appends('per_page', $perPage);
 
-        /** @var WarehouseEloquentModel[] $warehouses */
-        $warehouses = $result->items();
-        foreach ($warehouses as $warehouse) {
-            $entity = $this->eloquentTransformer->transform($warehouse);
-            $this->collectionEntitiesTransformer->transform($entity);
+        $collectionJsonTransformer = new CollectionJsonTransformer($result);
+        $collectionJson = $collectionJsonTransformer->transform();
+
+        /** @var WarehouseEloquentModel[] $items */
+        $items = $result->items();
+        foreach ($items as $item) {
+            $entity = $this->eloquentTransformer->transform($item);
+            $collectionJsonItem = new CollectionJsonItem();
+            $collectionJsonItem->setData($entity->toArray());
+            $collectionJsonItem->setHref("http://$_SERVER[HTTP_HOST]/" . WarehouseEntity::URL_PATH . '/' . $item->id);
+            $collectionJson->addItem($collectionJsonItem);
         }
-        $collectionEntities = $this->collectionEntitiesTransformer->getCollectionEntities();
-        $collectionEntities->setTotalItems($result->total());
 
-        return $collectionEntities;
+        return $collectionJson;
     }
 
     /**
      * @param int $id
-     * @return CollectionEntities
+     * @return CollectionJson
      */
-    public function getById(int $id): CollectionEntities
+    public function findOne(int $id): CollectionJson
     {
-        $entity = $this->eloquentRepository->getById($id);
+        $entity = $this->eloquentRepository->findOne($id);
 
-        return $this->collectionEntitiesTransformer->transform($entity);
+        $collectionJson = new CollectionJson();
+        $collectionJsonItem = new CollectionJsonItem();
+        $collectionJsonItem
+            ->setData($entity->toArray())
+            ->setHref("http://$_SERVER[HTTP_HOST]/" . WarehouseEntity::URL_PATH . '/' . $id);
+        $collectionJson->addItem($collectionJsonItem);
+        $warehousesListUrl = "http://$_SERVER[HTTP_HOST]/" . WarehouseEntity::URL_PATH;
+        $list = (new CollectionJsonLink())->setRel('list')->setHref($warehousesListUrl);
+        $collectionJson->addLink($list);
+
+        return $collectionJson;
     }
 
     /**
      * @param WarehouseEntity $entity
-     * @return CollectionEntities
+     * @return CollectionJson
      */
-    public function persist(WarehouseEntity $entity): CollectionEntities
+    public function persist(WarehouseEntity $entity): CollectionJson
     {
         $warehouse = $this->eloquentRepository->persist($entity);
 
-        return $this->collectionEntitiesTransformer->transform($warehouse);
+        $collectionJson = new CollectionJson();
+        $collectionJsonItem = new CollectionJsonItem();
+        $collectionJsonItem->setData($warehouse->toArray());
+        $collectionJson->addItem($collectionJsonItem);
+
+        return $collectionJson;
     }
 }

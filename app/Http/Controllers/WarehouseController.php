@@ -41,9 +41,6 @@ class WarehouseController extends Controller
         $this->cache = app('redis');
     }
 
-    /**
-     * @return string
-     */
     public function get()
     {
         $perPage = $this->request->get('per_page', 0);
@@ -54,8 +51,8 @@ class WarehouseController extends Controller
             return $this->cache->get($cacheKey);
         }
 
-        $collectionEntities = $this->repository->get($perPage, $page);
-        $data = $collectionEntities->toJson();
+        $collectionJson = $this->repository->findAll($perPage, $page);
+        $data = $collectionJson->render();
         self::CACHE && $this->cache->set($cacheKey, $data);
 
         return $data;
@@ -72,7 +69,7 @@ class WarehouseController extends Controller
             return $this->cache->get($cacheKey);
         }
 
-        $data = $this->repository->getById($id)->toJson();
+        $data = $this->repository->findOne($id)->render();
         self::CACHE && $this->cache->set($cacheKey, $data);
 
         return $data;

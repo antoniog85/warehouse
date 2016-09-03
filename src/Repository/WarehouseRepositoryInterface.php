@@ -10,7 +10,7 @@ interface WarehouseRepositoryInterface
      * @param int $id
      * @return WarehouseEntity
      */
-    public function getById(int $id): WarehouseEntity;
+    public function findOne(int $id): WarehouseEntity;
 
     /**
      * @param WarehouseEntity $entity

@@ -2,10 +2,10 @@
 
 namespace App\Http\Middleware;
 
-use Warehouse\MediaType\CollectionJson\LaravelResponseManipulator;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Warehouse\MediaType\ResponseManipulator;
 
 class AfterMiddleware
 {
@@ -14,7 +14,7 @@ class AfterMiddleware
         /** @var Response $response */
         $response = $next($request);
 
-        $responseManipulator = new LaravelResponseManipulator($request, $response);
+        $responseManipulator = new ResponseManipulator($request, $response);
 
         return $responseManipulator->manipulate();
     }

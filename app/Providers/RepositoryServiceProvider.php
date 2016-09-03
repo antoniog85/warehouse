@@ -6,7 +6,6 @@ use Illuminate\Support\ServiceProvider;
 use Warehouse\Repository\Eloquent\WarehouseEloquentCollectionJsonRepository;
 use Warehouse\Repository\Eloquent\WarehouseEloquentRepository;
 use Warehouse\Transformer\Warehouse\WarehouseFromEloquentToEntityTransformer;
-use Warehouse\Transformer\Warehouse\WarehouseFromEntityToCollectionEntitiesTransformer;
 
 class RepositoryServiceProvider extends ServiceProvider
 {
@@ -28,7 +27,6 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->singleton(WarehouseEloquentCollectionJsonRepository::class, function ($app) {
             return new WarehouseEloquentCollectionJsonRepository(
                 $app->make(WarehouseFromEloquentToEntityTransformer::class),
-                $app->make(WarehouseFromEntityToCollectionEntitiesTransformer::class),
                 $app->make(WarehouseEloquentRepository::class)
             );
         });

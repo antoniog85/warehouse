@@ -12,7 +12,7 @@ class WarehouseEloquentRepository extends AbstractEloquentRepository implements 
      * @param int $id
      * @return WarehouseEntity
      */
-    public function getById(int $id): WarehouseEntity
+    public function findOne(int $id): WarehouseEntity
     {
         $model = WarehouseModel::find($id);
         return $this->eloquentTransformer->transform($model);
