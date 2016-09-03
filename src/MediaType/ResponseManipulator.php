@@ -1,16 +1,10 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: antonio
- * Date: 03/09/16
- * Time: 10:20
- */
 
 namespace Warehouse\MediaType;
 
-
 use Illuminate\Http\Response;
 use Warehouse\MediaType\CollectionJson\ResponseManipulator\LaravelResponseManipulator;
+use Warehouse\MediaType\Exception\ResponseManipulatorNotFound;
 
 class ResponseManipulator implements ResponseManipulable
 {

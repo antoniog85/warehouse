@@ -3,7 +3,7 @@
 namespace Warehouse\Entity\Warehouse;
 
 use Warehouse\Entity\EntityInterface;
-use Warehouse\Entity\Links;
+use Warehouse\Entity\Link;
 
 /**
  * Representation of the entity Warehouse
@@ -41,6 +41,11 @@ class WarehouseEntity implements EntityInterface
      * @var string
      */
     private $deletedAt;
+
+    /**
+     * @var Link[]
+     */
+    private $links;
 
     /**
      * @return int
@@ -130,13 +135,50 @@ class WarehouseEntity implements EntityInterface
         return $this;
     }
 
-    /**
-     * @return Links
-     */
-    public function getLinks(): Links
+    public function getLinks()
     {
-        $links = new Links();
-        return $links->setSelf(self::URL_PATH . '/' . $this->id);
+        // @todo constant items
+        $itemsLink = "http://{$_SERVER['HTTP_HOST']}/{$this->getUrlPath()}/{$this->getId()}/items";
+        $this->links[] = (new Link())->setHref($itemsLink)->setRel('items');
+
+        return $this->links;
+    }
+
+    /**
+     * @return string
+     */
+    public function getNote()
+    {
+        return $this->note;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCreatedAt()
+    {
+        return $this->createdAt;
+    }
+
+    /**
+     * @return string
+     */
+    public function getUpdatedAt()
+    {
+        return $this->updatedAt;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDeletedAt()
+    {
+        return $this->deletedAt;
+    }
+
+    public function getUrlPath(): string
+    {
+        return self::URL_PATH;
     }
 
     /**
@@ -145,12 +187,12 @@ class WarehouseEntity implements EntityInterface
     public function toArray(): array
     {
         return [
-            'id' => $this->id,
-            'name' => $this->name,
-            'note' => $this->note,
-            'created_at' => $this->createdAt,
-            'updated_at' => $this->updatedAt,
-            'deleted_at' => $this->deletedAt,
+            'id' => $this->getId(),
+            'name' => $this->getName(),
+            'note' => $this->getNote(),
+            'created_at' => $this->getCreatedAt(),
+            'updated_at' => $this->getUpdatedAt(),
+            'deleted_at' => $this->getDeletedAt(),
         ];
     }
 }

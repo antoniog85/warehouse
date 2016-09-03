@@ -25,7 +25,6 @@ class LengthAwarePaginatorTransformer implements CollectionJsonTransformable
 
         $items = $this->result->items();
 
-        // pagination
         if (!count($items)) {
             return $collectionJson;
         }
@@ -36,31 +35,6 @@ class LengthAwarePaginatorTransformer implements CollectionJsonTransformable
         $previous = (new CollectionJsonLink())->setHref($this->result->previousPageUrl() ?: '')->setRel('previous');
 
         $collectionJson->setLinks($first, $last, $next, $previous);
-
-//        foreach ($items as $item) {
-////            $entity = $this->eloquentTransformer->transform($warehouse);
-//            $collectionJsonItem = new CollectionJsonItem();
-//            $collectionJsonItem->setData($item->toArray());
-////            $collectionJsonItem->setHref(WarehouseEntity::URL_PATH . '/' . $warehouse->id);
-//            $collectionJson->addItem($collectionJsonItem);
-//        }
-
-//        $warehouses = $result->items();
-//        foreach ($warehouses as $warehouse) {
-//            $entity = $this->eloquentTransformer->transform($warehouse);
-//            $this->collectionEntitiesTransformer->transform($entity);
-//        }
-//        $collectionEntities = $this->collectionEntitiesTransformer->getCollectionEntities();
-//        $collectionEntities->setTotalItems($totalRows);
-//
-//        $collectionEntities->addPagination(
-//            $result->url(1),
-//            $result->url($result->lastPage()),
-//            $result->nextPageUrl() ?: '',
-//            $result->previousPageUrl() ?: ''
-//        );
-
-//        return $collectionEntities;
 
         return $collectionJson;
     }

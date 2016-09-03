@@ -68,7 +68,7 @@ class CollectionJsonItem implements MediaTypeInterface
      */
     public function addLink(CollectionJsonLink $link)
     {
-        $this->links = $links;
+        $this->links[] = $link;
 
         return $this;
     }

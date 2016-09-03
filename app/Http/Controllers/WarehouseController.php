@@ -2,13 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use Laravel\Lumen\Routing\Controller;
-use Redis;
-use Warehouse\Repository\Eloquent\WarehouseEloquentCollectionJsonRepository;
-use Warehouse\Transformer\Warehouse\WarehouseFromIlluminateRequestToEntityTransformer;
+use Warehouse\Transformer\HttpRequestToEntity\HttpRequestToEntity;
 
-class WarehouseController extends Controller
+final class WarehouseController extends EloquentCollectionJsonController
 {
     /**
      * Set to true to enable caching
@@ -16,73 +12,22 @@ class WarehouseController extends Controller
     const CACHE = false;
 
     /**
-     * @var Request
+     * Create a new warehouse
+     *
+     * @return array
      */
-    private $request;
-
-    /**
-     * @var WarehouseEloquentCollectionJsonRepository
-     */
-    private $repository;
-
-    /**
-     * @var Redis
-     */
-    private $cache;
-
-    /**
-     * @param Request $request
-     * @param WarehouseEloquentCollectionJsonRepository $repository
-     */
-    public function __construct(Request $request, WarehouseEloquentCollectionJsonRepository $repository)
+    public function post()
     {
-        $this->request = $request;
-        $this->repository = $repository;
-        $this->cache = app('redis');
-    }
+        $warehouse = $this->httpRequestToEntity->transform();
 
-    public function get()
-    {
-        $perPage = $this->request->get('per_page', 0);
-        $page = $this->request->get('page', 0);
-        $cacheKey = __CLASS__.':'.__FUNCTION__.$perPage.$page;
-
-        if (self::CACHE && $this->cache->exists($cacheKey)) {
-            return $this->cache->get($cacheKey);
-        }
-
-        $collectionJson = $this->repository->findAll($perPage, $page);
-        $data = $collectionJson->render();
-        self::CACHE && $this->cache->set($cacheKey, $data);
-
-        return $data;
+        return $this->repository->persist($warehouse)->render();
     }
 
     /**
-     * @param int $id
-     * @return string
+     * @return bool
      */
-    public function getById(int $id)
+    protected function isCacheable()
     {
-        $cacheKey = __CLASS__.':'.__FUNCTION__.$id;
-        if (self::CACHE && $this->cache->exists($cacheKey)) {
-            return $this->cache->get($cacheKey);
-        }
-
-        $data = $this->repository->findOne($id)->render();
-        self::CACHE && $this->cache->set($cacheKey, $data);
-
-        return $data;
-    }
-
-    /**
-     * @param WarehouseFromIlluminateRequestToEntityTransformer $transformer
-     * @return string
-     */
-    public function post(WarehouseFromIlluminateRequestToEntityTransformer $transformer)
-    {
-        $warehouse = $transformer->transform($this->request);
-
-        return $this->repository->persist($warehouse)->toJson();
+        return self::CACHE;
     }
 }
