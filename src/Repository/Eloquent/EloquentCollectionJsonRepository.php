@@ -10,14 +10,14 @@ use Warehouse\MediaType\CollectionJson\CollectionJsonItem;
 use Warehouse\MediaType\CollectionJson\CollectionJsonLink;
 use Warehouse\MediaType\CollectionJson\Transformer\CollectionJsonTransformer;
 use Warehouse\Repository\CollectionJsonRepositoryInterface;
-use Warehouse\Transformer\EloquentTransformerInterface;
+use Warehouse\Transformer\EloquentToEntity\TransformableToEntity;
 use Warehouse\Repository\RepositoryInterface;
 use Illuminate\Database\Eloquent\Model;
 
 class EloquentCollectionJsonRepository implements CollectionJsonRepositoryInterface
 {
     /**
-     * @var EloquentTransformerInterface
+     * @var TransformableToEntity
      */
     protected $eloquentTransformer;
 
@@ -32,7 +32,7 @@ class EloquentCollectionJsonRepository implements CollectionJsonRepositoryInterf
     protected $model;
 
     public function __construct(
-        EloquentTransformerInterface $eloquentTransformer,
+        TransformableToEntity $eloquentTransformer,
         RepositoryInterface $repository,
         Model $model
     )

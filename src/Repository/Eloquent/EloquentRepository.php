@@ -5,12 +5,12 @@ namespace Warehouse\Repository\Eloquent;
 use Illuminate\Database\Eloquent\Model;
 use Warehouse\Entity\EntityInterface;
 use Warehouse\Repository\RepositoryInterface;
-use Warehouse\Transformer\EloquentTransformerInterface;
+use Warehouse\Transformer\EloquentToEntity\TransformableToEntity;
 
 class EloquentRepository implements RepositoryInterface
 {
     /**
-     * @var EloquentTransformerInterface
+     * @var TransformableToEntity
      */
     private $eloquentTransformer;
 
@@ -19,7 +19,7 @@ class EloquentRepository implements RepositoryInterface
      */
     private $model;
 
-    public function __construct(EloquentTransformerInterface $eloquentTransformer, Model $model)
+    public function __construct(TransformableToEntity $eloquentTransformer, Model $model)
     {
         $this->eloquentTransformer = $eloquentTransformer;
         $this->model = $model;

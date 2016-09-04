@@ -1,6 +1,6 @@
 <?php
 
-namespace Warehouse\Transformer;
+namespace Warehouse\Transformer\HttpRequestToEntity;
 
 use Warehouse\Entity\EntityInterface;
 

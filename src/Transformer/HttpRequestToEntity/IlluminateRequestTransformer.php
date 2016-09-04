@@ -6,7 +6,7 @@ use App\Models\Warehouse;
 use Illuminate\Http\Request;
 use Warehouse\Entity\EntityInterface;
 use Warehouse\Transformer\Exception\TransformerNotFoundException;
-use Warehouse\Transformer\TransformableToEntity;
+use Warehouse\Transformer\HttpRequestToEntity\TransformableToEntity;
 
 class IlluminateRequestTransformer implements TransformableToEntity
 {

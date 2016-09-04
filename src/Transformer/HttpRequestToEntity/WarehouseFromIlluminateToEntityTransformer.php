@@ -5,7 +5,7 @@ namespace Warehouse\Transformer\HttpRequestToEntity;
 use Illuminate\Http\Request;
 use Warehouse\Entity\EntityInterface;
 use Warehouse\Entity\Warehouse\WarehouseEntity;
-use Warehouse\Transformer\TransformableToEntity;
+use Warehouse\Transformer\HttpRequestToEntity\TransformableToEntity;
 
 class WarehouseFromIlluminateToEntityTransformer implements TransformableToEntity
 {
